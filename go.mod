@@ -1,4 +1,4 @@
-module github.com/galbarnahum/h2loadGo/remoteSystemStatsMonitor
+module github.com/galbarnahum/remoteSystemStatsMonitor
 
 go 1.23.0
 

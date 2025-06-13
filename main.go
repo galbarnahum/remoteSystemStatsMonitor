@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/galbarnahum/h2loadGo/remoteSystemStatsMonitor/stats"
+	"github.com/galbarnahum/remoteSystemStatsMonitor/stats"
 	"golang.org/x/crypto/ssh"
 )
 
