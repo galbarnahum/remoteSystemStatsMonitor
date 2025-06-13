@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"log"
 	"os"
 	"time"
@@ -30,18 +29,10 @@ func main() {
 	}
 	defer monitor.Close()
 
-	// Create a context that we can use to stop the monitoring
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-
 	// Start monitoring asynchronously
-	if err := monitor.StartAsync(ctx); err != nil {
+	if err := monitor.StartAsync(); err != nil {
 		log.Fatalf("Failed to start monitoring: %v", err)
 	}
 
 	// Keep the program running until interrupted
-	select {
-	case <-ctx.Done():
-		log.Println("Monitoring stopped")
-	}
 }

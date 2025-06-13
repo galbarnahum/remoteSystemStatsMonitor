@@ -136,7 +136,7 @@ func (m *RemoteStatsMonitor) collectAndLog() error {
 }
 
 // StartSync starts monitoring synchronously (blocking call)
-func (m *RemoteStatsMonitor) StartSync(ctx context.Context) error {
+func (m *RemoteStatsMonitor) StartSync() error {
 	// Ensure we have a fresh context if the previous one was cancelled
 	m.ensureFreshContext()
 
@@ -155,9 +155,6 @@ func (m *RemoteStatsMonitor) StartSync(ctx context.Context) error {
 
 	for {
 		select {
-		case <-ctx.Done():
-			m.logger.Printf("Stopping remote stats monitoring (external context cancelled)")
-			return ctx.Err()
 		case <-m.ctx.Done():
 			m.logger.Printf("Stopping remote stats monitoring (stop requested)")
 			return nil
@@ -170,12 +167,12 @@ func (m *RemoteStatsMonitor) StartSync(ctx context.Context) error {
 }
 
 // StartAsync starts monitoring asynchronously (non-blocking call)
-func (m *RemoteStatsMonitor) StartAsync(ctx context.Context) error {
+func (m *RemoteStatsMonitor) StartAsync() error {
 	// Ensure we have a fresh context if the previous one was cancelled
 	m.ensureFreshContext()
 
 	go func() {
-		if err := m.StartSync(ctx); err != nil && err != context.Canceled {
+		if err := m.StartSync(); err != nil {
 			m.logger.Printf("Async monitoring stopped with error: %v", err)
 		}
 	}()
