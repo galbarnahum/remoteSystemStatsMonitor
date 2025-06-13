@@ -143,24 +143,21 @@ func (m *RemoteStatsMonitor) StartSync() error {
 	m.wg.Add(1)
 	defer m.wg.Done()
 
-	m.logger.Printf("Starting remote stats monitoring (sync) with interval: %v", m.interval)
-
 	ticker := time.NewTicker(m.interval)
 	defer ticker.Stop()
 
 	// Collect initial stats
 	if err := m.collectAndLog(); err != nil {
-		m.logger.Printf("Error collecting initial stats: %v", err)
+		fmt.Printf("Error collecting initial stats: %v", err)
 	}
 
 	for {
 		select {
 		case <-m.ctx.Done():
-			m.logger.Printf("Stopping remote stats monitoring (stop requested)")
 			return nil
 		case <-ticker.C:
 			if err := m.collectAndLog(); err != nil {
-				m.logger.Printf("Error collecting stats: %v", err)
+				fmt.Printf("Error collecting stats: %v", err)
 			}
 		}
 	}
